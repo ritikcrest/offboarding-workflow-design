@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resignation &amp; Offboarding Workflow — Design Artifact</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          'Helvetica Neue', Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.45;
+        color: #202939;
+        background: #f6f7f9;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      .obwd-root {
+        min-height: 100vh;
+        padding-bottom: 76px;
+      }
+
+      .obwd-prototype-banner {
+        padding: 10px 0;
+        background: #eff6ff;
+        border-bottom: 1px solid #bfdbfe;
+        color: #1e3a8a;
+        font-size: 13px;
+      }
+
+      .obwd-prototype-banner strong {
+        font-weight: 600;
+      }
+
+      .obwd-container {
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .obwd-page-header {
+        padding: 14px 0;
+        border-bottom: 1px solid #e4e7ec;
+        background: #fff;
+      }
+
+      .obwd-page-header .obwd-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .obwd-page-header h1 {
+        margin: 0 0 4px;
+        font-size: 18px;
+        font-weight: 600;
+        color: #1d2939;
+      }
+
+      .obwd-page-header p {
+        margin: 0;
+        font-size: 12px;
+        color: #667085;
+      }
+
+      .obwd-header-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .obwd-back-button {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        padding: 0;
+        border: 1px solid #d0d5dd;
+        border-radius: 6px;
+        background: #fff;
+        color: #344054;
+        cursor: pointer;
+      }
+
+      .obwd-role-select {
+        width: min(280px, 100%);
+      }
+
+      .obwd-role-select label {
+        display: block;
+        margin-bottom: 3px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #667085;
+      }
+
+      .obwd-role-select select {
+        width: 100%;
+        min-height: 34px;
+        padding: 6px 10px;
+        border: 1px solid #d0d5dd;
+        border-radius: 5px;
+        font-size: 13px;
+        background: #fff;
+      }
+
+      .obwd-page-content {
+        padding-top: 16px;
+        padding-bottom: 24px;
+      }
+
+      .obwd-card {
+        margin-bottom: 16px;
+        border: 1px solid #e4e7ec;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 1px 2px rgb(16 24 40 / 4%);
+      }
+
+      .obwd-summary-card {
+        border-left: 3px solid #3155a5;
+      }
+
+      .obwd-card-body {
+        padding: 16px;
+      }
+
+      .obwd-card-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid #e4e7ec;
+      }
+
+      .obwd-card-header h2 {
+        margin: 0 0 4px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #1d2939;
+      }
+
+      .obwd-card-header p {
+        margin: 0;
+        font-size: 12px;
+        color: #667085;
+      }
+
+      .obwd-card-header-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .obwd-summary-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .obwd-eyebrow {
+        margin: 0 0 4px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #3155a5;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .obwd-summary-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .obwd-summary-title h2 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #101828;
+      }
+
+      .obwd-muted {
+        margin: 0;
+        font-size: 12px;
+        color: #667085;
+      }
+
+      .obwd-progress-wrap {
+        width: min(320px, 100%);
+      }
+
+      .obwd-progress-wrap > span {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #475467;
+        text-align: right;
+      }
+
+      .obwd-progress-bar {
+        height: 6px;
+        overflow: hidden;
+        border-radius: 4px;
+        background: #eaecf0;
+      }
+
+      .obwd-progress-bar > span {
+        display: block;
+        height: 100%;
+        background: #3155a5;
+        transition: width 0.2s ease;
+      }
+
+      .obwd-alert {
+        margin-bottom: 16px;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+
+      .obwd-alert-success {
+        border: 1px solid #abefc6;
+        background: #ecfdf3;
+        color: #067647;
+      }
+
+      .obwd-alert-danger {
+        border: 1px solid #fecdca;
+        background: #fef3f2;
+        color: #b42318;
+      }
+
+      .obwd-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        white-space: nowrap;
+      }
+
+      .obwd-form-grid,
+      .obwd-final-summary {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 16px;
+      }
+
+      .obwd-final-summary {
+        margin: 16px 0;
+        padding: 14px;
+        border: 1px solid #d9e2f2;
+        border-radius: 7px;
+        background: #f8faff;
+      }
+
+      .obwd-field label {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #344054;
+      }
+
+      .obwd-field input,
+      .obwd-field select,
+      .obwd-field textarea {
+        width: 100%;
+        min-height: 34px;
+        padding: 6px 10px;
+        border: 1px solid #d0d5dd;
+        border-radius: 5px;
+        font-size: 13px;
+      }
+
+      .obwd-field input[readonly],
+      .obwd-field textarea[readonly] {
+        background: #f7f8fa;
+        color: #475467;
+      }
+
+      .obwd-field textarea {
+        min-height: 96px;
+        resize: vertical;
+      }
+
+      .obwd-details-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px solid #eaecf0;
+      }
+
+      .obwd-check-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #344054;
+      }
+
+      .obwd-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .obwd-btn {
+        min-height: 32px;
+        padding: 5px 12px;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        background: #fff;
+      }
+
+      .obwd-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      .obwd-btn-primary {
+        border-color: #3155a5;
+        background: #3155a5;
+        color: #fff;
+      }
+
+      .obwd-btn-secondary {
+        border-color: #d0d5dd;
+        color: #344054;
+      }
+
+      .obwd-btn-danger {
+        border-color: #fda29b;
+        color: #b42318;
+        background: #fff;
+      }
+
+      .obwd-stage-tabs {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(145px, 1fr));
+        overflow-x: auto;
+        border-bottom: 1px solid #e4e7ec;
+        background: #fbfcfd;
+      }
+
+      .obwd-stage-tab {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-height: 62px;
+        padding: 10px 12px;
+        border: 0;
+        border-right: 1px solid #eaecf0;
+        border-bottom: 2px solid transparent;
+        background: transparent;
+        color: #475467;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .obwd-stage-tab:last-child {
+        border-right: 0;
+      }
+
+      .obwd-stage-tab strong,
+      .obwd-stage-tab small {
+        display: block;
+      }
+
+      .obwd-stage-tab strong {
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .obwd-stage-tab small {
+        margin-top: 2px;
+        font-size: 10px;
+        color: #98a2b3;
+      }
+
+      .obwd-stage-tab.is-active {
+        border-bottom-color: #3155a5;
+        background: #f4f7ff;
+        color: #27468d;
+      }
+
+      .obwd-stage-tab.is-completed .obwd-stage-icon {
+        border-color: #12b76a;
+        background: #12b76a;
+        color: #fff;
+      }
+
+      .obwd-stage-tab.is-rejected .obwd-stage-icon,
+      .obwd-stage-tab.is-sent-back .obwd-stage-icon {
+        border-color: #f04438;
+        background: #fef3f2;
+        color: #d92d20;
+      }
+
+      .obwd-stage-tab:disabled {
+        cursor: not-allowed;
+        opacity: 0.64;
+      }
+
+      .obwd-stage-icon {
+        display: grid;
+        flex: 0 0 25px;
+        width: 25px;
+        height: 25px;
+        place-items: center;
+        border: 1px solid #98a2b3;
+        border-radius: 50%;
+        background: #fff;
+        font-size: 11px;
+      }
+
+      .obwd-stage-body {
+        padding: 16px;
+      }
+
+      .obwd-stage-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+
+      .obwd-stage-heading h3 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+        color: #1d2939;
+      }
+
+      .obwd-stage-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .obwd-lock-copy {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #667085;
+      }
+
+      .obwd-stage-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.85fr);
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      .obwd-stage-main {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+      }
+
+      .obwd-stage-fields {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .obwd-remarks {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        margin-top: 14px;
+      }
+
+      .obwd-remarks textarea {
+        flex: 1;
+        min-height: 120px;
+      }
+
+      .obwd-checklist-panel {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+        border: 1px solid #e4e7ec;
+        border-radius: 7px;
+        background: #fbfcfd;
+      }
+
+      .obwd-checklist-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border-bottom: 1px solid #eaecf0;
+      }
+
+      .obwd-checklist-header h4 {
+        margin: 0 0 2px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1d2939;
+      }
+
+      .obwd-checklist-header p {
+        margin: 0;
+        font-size: 10px;
+        color: #667085;
+      }
+
+      .obwd-checklist-count {
+        padding: 3px 8px;
+        border-radius: 10px;
+        background: #e9effb;
+        font-size: 11px;
+        font-weight: 700;
+        color: #3155a5;
+      }
+
+      .obwd-checklist-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        min-height: 40px;
+        padding: 10px 14px;
+        border-bottom: 1px solid #f0f1f3;
+        font-size: 12px;
+        color: #344054;
+      }
+
+      .obwd-checklist-item:last-child {
+        border-bottom: 0;
+      }
+
+      .obwd-checklist-item input {
+        margin-top: 2px;
+      }
+
+      .obwd-stage-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        min-height: 48px;
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px solid #eaecf0;
+        flex-wrap: wrap;
+      }
+
+      .obwd-sticky-footer {
+        position: fixed;
+        z-index: 20;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        min-height: 62px;
+        padding: 10px 0;
+        border-top: 1px solid #dfe3e8;
+        background: rgb(255 255 255 / 96%);
+        box-shadow: 0 -4px 12px rgb(16 24 40 / 6%);
+        backdrop-filter: blur(8px);
+      }
+
+      .obwd-sticky-footer .obwd-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .obwd-sticky-footer p {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin: 0;
+        font-size: 12px;
+        color: #667085;
+      }
+
+      @media (max-width: 1100px) {
+        .obwd-stage-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .obwd-stage-tabs {
+          grid-template-columns: repeat(5, minmax(180px, 1fr));
+        }
+      }
+
+      @media (max-width: 767px) {
+        .obwd-page-header .obwd-container,
+        .obwd-summary-top,
+        .obwd-details-actions,
+        .obwd-sticky-footer .obwd-container {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .obwd-container {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+
+        .obwd-page-content {
+          padding-top: 12px;
+          padding-bottom: 12px;
+        }
+
+        .obwd-form-grid,
+        .obwd-stage-fields,
+        .obwd-final-summary {
+          grid-template-columns: 1fr;
+        }
+
+        .obwd-role-select {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="obwd-root" id="app"></div>
+
+    <script>
+      const EMPLOYEE = {
+        id: 'EMP1052',
+        name: 'Rohit Kapoor',
+        designation: 'Senior Software Engineer',
+        manager: 'Vasu Devalla',
+        entity: 'Nemo IT Solutions',
+        department: 'Engineering',
+        resignationDate: '01 May 2026',
+        proposedLwd: '31 May 2026',
+        approvedLwd: '31 May 2026',
+        reason: 'Better career opportunity',
+        noticePeriod: '30 days',
+      };
+
+      const ROLE_OPTIONS = [
+        { value: 'hr', label: 'Priya Sharma · HR Admin' },
+        { value: 'manager', label: 'Vasu Devalla · Reporting Manager' },
+        { value: 'admin', label: 'Akash Verma · Admin Approver' },
+        { value: 'finance', label: 'Neha Gupta · Finance Approver' },
+        { value: 'employee', label: 'Rohit Kapoor · Employee' },
+      ];
+
+      const CLEARANCE_STAGE_IDS = ['manager', 'admin', 'finance'];
+
+      const INITIAL_STAGES = [
+        {
+          id: 'resignation',
+          label: 'Resignation Approval',
+          ownerRole: 'manager',
+          assignee: 'Vasu Devalla',
+          status: 'Completed',
+          completedOn: '03 May 2026',
+          remarks:
+            'Resignation accepted. Complete the handover plan before release.',
+          checklist: [
+            {
+              id: 'reason-reviewed',
+              label: 'Resignation reason reviewed',
+              checked: true,
+            },
+            {
+              id: 'lwd-reviewed',
+              label: 'Proposed last working date reviewed',
+              checked: true,
+            },
+          ],
+        },
+        {
+          id: 'manager',
+          label: 'Manager Clearance',
+          ownerRole: 'manager',
+          assignee: 'Vasu Devalla',
+          status: 'Completed',
+          completedOn: '18 May 2026',
+          remarks: 'Knowledge transfer and team handover are complete.',
+          checklist: [
+            { id: 'kt', label: 'Knowledge transfer completed', checked: true },
+            { id: 'tasks', label: 'Pending tasks reassigned', checked: true },
+            { id: 'handover', label: 'Team handover completed', checked: true },
+            {
+              id: 'information',
+              label: 'Company information handed over',
+              checked: true,
+            },
+            {
+              id: 'manager-dues',
+              label: 'No manager-level clearance pending',
+              checked: true,
+            },
+          ],
+        },
+        {
+          id: 'admin',
+          label: 'Admin Clearance',
+          ownerRole: 'admin',
+          assignee: 'Akash Verma',
+          status: 'In Progress',
+          completedOn: '—',
+          remarks: 'ID card received. Access card and office keys are pending.',
+          checklist: [
+            { id: 'id-card', label: 'ID card returned', checked: true },
+            {
+              id: 'access-card',
+              label: 'Access card returned',
+              checked: false,
+            },
+            { id: 'keys', label: 'Office keys returned', checked: false },
+            {
+              id: 'admin-dues',
+              label: 'Administrative dues cleared',
+              checked: true,
+            },
+            {
+              id: 'property',
+              label: 'Company property returned',
+              checked: false,
+            },
+          ],
+        },
+        {
+          id: 'finance',
+          label: 'Finance Clearance',
+          ownerRole: 'finance',
+          assignee: 'Neha Gupta',
+          status: 'In Progress',
+          completedOn: '—',
+          remarks:
+            'Salary advance verified. Loan recovery and reimbursements pending.',
+          checklist: [
+            {
+              id: 'advances',
+              label: 'Salary advances verified',
+              checked: true,
+            },
+            {
+              id: 'recoveries',
+              label: 'Loans or recoveries verified',
+              checked: false,
+            },
+            {
+              id: 'reimbursements',
+              label: 'Reimbursements cleared',
+              checked: false,
+            },
+            {
+              id: 'deductions',
+              label: 'Pending deductions recorded',
+              checked: false,
+            },
+            {
+              id: 'finance-dues',
+              label: 'Finance dues cleared',
+              checked: false,
+            },
+          ],
+        },
+        {
+          id: 'hr',
+          label: 'HR Final Clearance',
+          ownerRole: 'hr',
+          assignee: 'Priya Sharma',
+          status: 'Pending',
+          completedOn: '—',
+          remarks: '',
+          checklist: [
+            {
+              id: 'exit-interview',
+              label: 'Exit interview completed',
+              checked: false,
+            },
+            {
+              id: 'documents',
+              label: 'Required documents collected',
+              checked: false,
+            },
+            {
+              id: 'encashment',
+              label: 'Leave encashment reviewed',
+              checked: false,
+            },
+            {
+              id: 'clearances',
+              label: 'All mandatory clearances completed',
+              checked: false,
+            },
+            {
+              id: 'separation',
+              label: 'Employee ready for separation',
+              checked: false,
+            },
+          ],
+        },
+      ];
+
+      const BADGE_COLORS = {
+        Completed: '#33ba41',
+        'In Progress': '#fd7e14',
+        'In Clearance': '#fd7e14',
+        Pending: '#6b6b6b',
+        Locked: '#6b6b6b',
+        Rejected: '#e34646',
+        'Sent Back': '#e34646',
+        'Ready for F&F': '#2e65b6',
+      };
+
+      const state = {
+        role: 'admin',
+        stages: structuredClone(INITIAL_STAGES),
+        selectedStageId: 'admin',
+        initiateExit: true,
+        readyForFf: false,
+        notice: '',
+        validation: '',
+      };
+
+      function badge(status) {
+        const color = BADGE_COLORS[status] || '#6b6b6b';
+        return `<span class="obwd-badge" style="background:${color}">${escapeHtml(
+          status
+        )}</span>`;
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function stageIcon(status) {
+        if (status === 'Completed') return '✓';
+        if (status === 'Locked') return '🔒';
+        if (status === 'Rejected' || status === 'Sent Back') return '!';
+        return '⏱';
+      }
+
+      function getSelectedStage() {
+        return state.stages.find((s) => s.id === state.selectedStageId);
+      }
+
+      function isResignationApproved(stages) {
+        const resignation = stages.find((s) => s.id === 'resignation');
+        return resignation?.status === 'Completed';
+      }
+
+      function areClearancesComplete(stages) {
+        return CLEARANCE_STAGE_IDS.every((id) => {
+          const stage = stages.find((s) => s.id === id);
+          return stage?.status === 'Completed';
+        });
+      }
+
+      function isStageLocked(stage, stages) {
+        if (stage.id === 'resignation') return false;
+        if (!isResignationApproved(stages)) return true;
+        if (stage.id === 'hr') return !areClearancesComplete(stages);
+        return false;
+      }
+
+      function stageLockMessage(stage, stages) {
+        if (!isResignationApproved(stages) && stage.id !== 'resignation') {
+          return 'Resignation must be approved before clearance can begin.';
+        }
+        if (stage.id === 'hr' && !areClearancesComplete(stages)) {
+          return 'HR final clearance opens after Manager, Admin and Finance clearances are complete.';
+        }
+        return '';
+      }
+
+      function getDerived() {
+        const completedCount = state.stages.filter(
+          (s) => s.status === 'Completed'
+        ).length;
+        const allStagesCompleted = state.stages.every(
+          (s) => s.status === 'Completed'
+        );
+        const inProgressStages = state.stages.filter(
+          (s) => s.status === 'In Progress'
+        );
+        const pendingStages = state.stages.filter(
+          (s) => !['Completed', 'Rejected', 'Sent Back'].includes(s.status)
+        );
+        const currentStage =
+          inProgressStages.length > 1
+            ? {
+                label: `${inProgressStages.length} clearances in progress`,
+                status: 'In Progress',
+              }
+            : inProgressStages[0] ||
+              pendingStages[0] ||
+              state.stages[state.stages.length - 1];
+        const selectedStage = getSelectedStage();
+        const selectedIndex = state.stages.findIndex(
+          (s) => s.id === state.selectedStageId
+        );
+        const stageLocked = selectedStage
+          ? isStageLocked(selectedStage, state.stages)
+          : true;
+        const canUpdate =
+          selectedStage &&
+          !stageLocked &&
+          selectedStage.status !== 'Completed' &&
+          state.role === selectedStage.ownerRole;
+        const canAssign =
+          state.role === 'hr' &&
+          selectedStage &&
+          ['resignation', 'manager', 'admin', 'finance'].includes(
+            selectedStage.id
+          );
+        const overallStatus = state.readyForFf
+          ? 'Ready for F&F'
+          : state.stages.some((s) => s.status === 'Rejected')
+          ? 'Rejected'
+          : `In Clearance · ${currentStage.label}`;
+        const overallBadgeStatus = state.readyForFf
+          ? 'Ready for F&F'
+          : state.stages.some((s) => s.status === 'Rejected')
+          ? 'Rejected'
+          : 'In Clearance';
+        const progress = Math.round(
+          (completedCount / state.stages.length) * 100
+        );
+        const pendingClearances = state.stages
+          .filter(
+            (s) =>
+              CLEARANCE_STAGE_IDS.includes(s.id) && s.status !== 'Completed'
+          )
+          .map((s) => s.label);
+
+        return {
+          completedCount,
+          allStagesCompleted,
+          currentStage,
+          selectedStage,
+          selectedIndex,
+          stageLocked,
+          stageLockMessage: selectedStage
+            ? stageLockMessage(selectedStage, state.stages)
+            : '',
+          canUpdate,
+          canAssign,
+          overallStatus,
+          overallBadgeStatus,
+          progress,
+          pendingClearances,
+          resignationApproved: isResignationApproved(state.stages),
+        };
+      }
+
+      function renderField(label, value) {
+        return `<div class="obwd-field"><label>${escapeHtml(
+          label
+        )}</label><input readonly value="${escapeHtml(value)}" /></div>`;
+      }
+
+      function render() {
+        const d = getDerived();
+        const stage = d.selectedStage;
+        if (!stage) return;
+
+        const checkedCount = stage.checklist.filter((i) => i.checked).length;
+
+        document.getElementById('app').innerHTML = `
+          <header class="obwd-page-header">
+            <div class="obwd-container">
+              <div class="obwd-header-left">
+                <button type="button" class="obwd-back-button" aria-label="Back" onclick="history.back()">←</button>
+                <div>
+                  <h1>Resignation &amp; Relieving – ${escapeHtml(
+                    EMPLOYEE.name
+                  )}</h1>
+                  <p>Employees / Offboarding / ${escapeHtml(EMPLOYEE.id)}</p>
+                </div>
+              </div>
+              <div class="obwd-role-select">
+                <label for="role-select">Viewing as</label>
+                <select id="role-select" onchange="setRole(this.value)">
+                  ${ROLE_OPTIONS.map(
+                    (o) =>
+                      `<option value="${o.value}" ${
+                        state.role === o.value ? 'selected' : ''
+                      }>${escapeHtml(o.label)}</option>`
+                  ).join('')}
+                </select>
+              </div>
+            </div>
+          </header>
+
+          <main class="obwd-page-content obwd-container">
+            <section class="obwd-card obwd-summary-card">
+              <div class="obwd-card-body">
+                <div class="obwd-summary-top">
+                  <div>
+                    <p class="obwd-eyebrow">Clearance progress</p>
+                    <div class="obwd-summary-title">
+                      <h2>${escapeHtml(d.currentStage.label)}</h2>
+                      ${badge(
+                        state.readyForFf
+                          ? 'Ready for F&F'
+                          : d.currentStage.status
+                      )}
+                    </div>
+                    <p class="obwd-muted" style="margin-top:4px">Parallel clearances · ${
+                      d.completedCount
+                    } of ${state.stages.length} stages completed${
+          d.pendingClearances.length
+            ? ` · Pending: ${escapeHtml(d.pendingClearances.join(', '))}`
+            : ''
+        }</p>
+                  </div>
+                  <div class="obwd-progress-wrap">
+                    <span>${d.progress}% complete</span>
+                    <div class="obwd-progress-bar"><span style="width:${
+                      d.progress
+                    }%"></span></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            ${
+              state.notice
+                ? `<div class="obwd-alert obwd-alert-success">${escapeHtml(
+                    state.notice
+                  )}</div>`
+                : ''
+            }
+
+            <section class="obwd-card">
+              <div class="obwd-card-header">
+                <div class="obwd-card-header-row">
+                  <div>
+                    <h2>Employee Details</h2>
+                    <p>Resignation request and approved relieving information</p>
+                  </div>
+                  ${badge(d.overallBadgeStatus)}
+                </div>
+              </div>
+              <div class="obwd-card-body">
+                <div class="obwd-form-grid">
+                  ${renderField('Employee ID', EMPLOYEE.id)}
+                  ${renderField('Employee name', EMPLOYEE.name)}
+                  ${renderField('Designation', EMPLOYEE.designation)}
+                  ${renderField('Reporting manager', EMPLOYEE.manager)}
+                  ${renderField('Legal entity', EMPLOYEE.entity)}
+                  ${renderField('Department', EMPLOYEE.department)}
+                  ${renderField('Resignation date', EMPLOYEE.resignationDate)}
+                  ${renderField(
+                    'Proposed last working date',
+                    EMPLOYEE.proposedLwd
+                  )}
+                  ${renderField(
+                    'Approved relieving date',
+                    EMPLOYEE.approvedLwd
+                  )}
+                  ${renderField('Notice period', EMPLOYEE.noticePeriod)}
+                  ${renderField('Resignation reason', EMPLOYEE.reason)}
+                </div>
+                <div class="obwd-details-actions">
+                  <label class="obwd-check-row">
+                    <input type="checkbox" ${
+                      state.initiateExit ? 'checked' : ''
+                    } ${
+          state.role !== 'hr' ? 'disabled' : ''
+        } onchange="setInitiateExit(this.checked)" />
+                    Initiate Exit Process
+                  </label>
+                  <div class="obwd-actions">
+                    ${
+                      state.role === 'employee' || state.role === 'hr'
+                        ? '<button type="button" class="obwd-btn obwd-btn-danger">Withdraw Resignation</button>'
+                        : ''
+                    }
+                    <button type="button" class="obwd-btn obwd-btn-secondary">Send Email</button>
+                    <button type="button" class="obwd-btn obwd-btn-primary" onclick="save()">Save</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="obwd-card">
+              <div class="obwd-card-header">
+                <h2>Approval &amp; Clearance Flow</h2>
+                <p>Employee submits → Manager approves resignation → Manager, Admin &amp; Finance clearances run in parallel → HR final clearance → Ready for F&amp;F</p>
+              </div>
+              <div class="obwd-stage-tabs" role="tablist" aria-label="Workflow stages">
+                ${state.stages
+                  .map((s) => {
+                    const statusClass = s.status
+                      .toLowerCase()
+                      .replace(/ /g, '-');
+                    const locked = isStageLocked(s, state.stages);
+                    const iconStatus = locked ? 'Locked' : s.status;
+                    const disabled = locked && state.role !== 'hr';
+                    return `<button type="button" role="tab" class="obwd-stage-tab is-${statusClass} ${
+                      state.selectedStageId === s.id ? 'is-active' : ''
+                    }" ${disabled ? 'disabled' : ''} onclick="selectStage('${
+                      s.id
+                    }')">
+                      <span class="obwd-stage-icon">${stageIcon(
+                        iconStatus
+                      )}</span>
+                      <span><strong>${escapeHtml(
+                        s.label
+                      )}</strong><small>${escapeHtml(
+                      locked && s.status !== 'Completed' ? 'Locked' : s.status
+                    )}</small></span>
+                    </button>`;
+                  })
+                  .join('')}
+              </div>
+              <div class="obwd-stage-body">
+                <div class="obwd-stage-heading">
+                  <div>
+                    <div class="obwd-stage-title">
+                      <h3>${escapeHtml(stage.label)}</h3>
+                      ${badge(stage.status)}
+                    </div>
+                    <p class="obwd-muted" style="margin-top:4px">Each department works independently. Only the assigned approver can update their stage. HR can view every stage.</p>
+                  </div>
+                  ${
+                    d.stageLockMessage
+                      ? `<span class="obwd-lock-copy">🔒 ${escapeHtml(
+                          d.stageLockMessage
+                        )}</span>`
+                      : ''
+                  }
+                </div>
+
+                <div class="obwd-stage-grid">
+                  <div class="obwd-stage-main">
+                    <div class="obwd-form-grid obwd-stage-fields">
+                      <div class="obwd-field">
+                        <label>Assigned approver / department</label>
+                        ${
+                          d.canAssign
+                            ? `<select onchange="setAssignee(this.value)">
+                                <option ${
+                                  stage.assignee === 'Vasu Devalla'
+                                    ? 'selected'
+                                    : ''
+                                }>Vasu Devalla</option>
+                                <option ${
+                                  stage.assignee === 'Akash Verma'
+                                    ? 'selected'
+                                    : ''
+                                }>Akash Verma</option>
+                                <option ${
+                                  stage.assignee === 'Neha Gupta'
+                                    ? 'selected'
+                                    : ''
+                                }>Neha Gupta</option>
+                                <option ${
+                                  stage.assignee === 'Admin Department'
+                                    ? 'selected'
+                                    : ''
+                                }>Admin Department</option>
+                                <option ${
+                                  stage.assignee === 'Finance Department'
+                                    ? 'selected'
+                                    : ''
+                                }>Finance Department</option>
+                              </select>`
+                            : `<input readonly value="${escapeHtml(
+                                stage.assignee
+                              )}" />`
+                        }
+                      </div>
+                      ${
+                        stage.id === 'resignation'
+                          ? `${renderField(
+                              'Reporting manager',
+                              EMPLOYEE.manager
+                            )}
+                             ${renderField(
+                               'Proposed last working date',
+                               EMPLOYEE.proposedLwd
+                             )}
+                             ${renderField(
+                               'Resignation reason',
+                               EMPLOYEE.reason
+                             )}`
+                          : ''
+                      }
+                    </div>
+
+                    ${
+                      stage.id === 'hr'
+                        ? `<div class="obwd-final-summary obwd-form-grid">
+                            ${renderField(
+                              'All required approvals',
+                              `${d.completedCount} of 5 completed`
+                            )}
+                            ${renderField('Leave balance', '12 days')}
+                            ${renderField(
+                              'Approved leave encashment',
+                              '8 days'
+                            )}
+                            ${renderField(
+                              'Asset clearance summary',
+                              '2 returned · 1 pending'
+                            )}
+                            ${renderField(
+                              'Approved last working date',
+                              EMPLOYEE.approvedLwd
+                            )}
+                            ${renderField(
+                              'Separation reason',
+                              'Voluntary resignation'
+                            )}
+                            ${renderField(
+                              'Ready for F&F status',
+                              state.readyForFf ? 'Ready for F&F' : 'Not ready'
+                            )}
+                          </div>`
+                        : ''
+                    }
+
+                    <div class="obwd-remarks obwd-field">
+                      <label>Remarks</label>
+                      <textarea rows="4" ${
+                        d.canUpdate ? '' : 'readonly'
+                      } placeholder="${
+          d.canUpdate
+            ? 'Add remarks. Required for Reject and Send Back.'
+            : 'No remarks added.'
+        }" oninput="setRemarks(this.value)">${escapeHtml(
+          stage.remarks
+        )}</textarea>
+                    </div>
+                  </div>
+
+                  <div class="obwd-checklist-panel">
+                    <div class="obwd-checklist-header">
+                      <div>
+                        <h4>Mandatory checklist</h4>
+                        <p>All items must be complete before approval.</p>
+                      </div>
+                      <span class="obwd-checklist-count">${checkedCount}/${
+          stage.checklist.length
+        }</span>
+                    </div>
+                    <div>
+                      ${stage.checklist
+                        .map(
+                          (item) => `<label class="obwd-checklist-item">
+                            <input type="checkbox" ${
+                              item.checked ? 'checked' : ''
+                            } ${
+                            d.canUpdate ? '' : 'disabled'
+                          } onchange="toggleChecklist('${
+                            item.id
+                          }', this.checked)" />
+                            <span>${escapeHtml(item.label)}</span>
+                          </label>`
+                        )
+                        .join('')}
+                    </div>
+                  </div>
+                </div>
+
+                ${
+                  state.validation
+                    ? `<div class="obwd-alert obwd-alert-danger" style="margin-top:16px">${escapeHtml(
+                        state.validation
+                      )}</div>`
+                    : ''
+                }
+
+                <div class="obwd-stage-actions">
+                  ${
+                    d.canUpdate
+                      ? `<button type="button" class="obwd-btn obwd-btn-danger" onclick="performDecision('Rejected')">Reject</button>
+                         <button type="button" class="obwd-btn obwd-btn-secondary" onclick="performDecision('Sent Back')">↺ Send Back</button>
+                         <button type="button" class="obwd-btn obwd-btn-secondary" onclick="save()">Save</button>
+                         <button type="button" class="obwd-btn obwd-btn-primary" onclick="performDecision('Completed')">✓ Approve</button>`
+                      : `<p class="obwd-muted">${
+                          stage.status === 'Completed'
+                            ? `Completed by ${escapeHtml(
+                                stage.assignee
+                              )} on ${escapeHtml(stage.completedOn)}.`
+                            : d.stageLockMessage
+                            ? escapeHtml(d.stageLockMessage)
+                            : `Switch to the ${escapeHtml(
+                                stage.ownerRole
+                              )} role to update this stage.`
+                        }</p>`
+                  }
+                </div>
+              </div>
+            </section>
+          </main>
+
+          <footer class="obwd-sticky-footer">
+            <div class="obwd-container">
+              <p>🛡 Final F&amp;F processing remains in greytHR.</p>
+              <div class="obwd-actions">
+                <button type="button" class="obwd-btn obwd-btn-secondary" onclick="resetScenario()">Cancel</button>
+                <button type="button" class="obwd-btn obwd-btn-secondary" onclick="save()">Save</button>
+                <button type="button" class="obwd-btn obwd-btn-primary" ${
+                  !d.allStagesCompleted ||
+                  state.role !== 'hr' ||
+                  state.readyForFf
+                    ? 'disabled'
+                    : ''
+                } title="${
+          state.role !== 'hr' ? 'Only HR can complete the F&F handoff' : ''
+        }" onclick="moveToFf()">
+                  ${
+                    state.readyForFf ? 'Ready for F&F' : 'Move to Ready for F&F'
+                  }
+                </button>
+              </div>
+            </div>
+          </footer>
+        `;
+      }
+
+      window.setRole = function (role) {
+        state.role = role;
+        render();
+      };
+
+      window.selectStage = function (id) {
+        const stage = state.stages.find((s) => s.id === id);
+        if (stage && isStageLocked(stage, state.stages) && state.role !== 'hr')
+          return;
+        state.selectedStageId = id;
+        state.validation = '';
+        render();
+      };
+
+      window.setInitiateExit = function (checked) {
+        state.initiateExit = checked;
+      };
+
+      window.setAssignee = function (assignee) {
+        const stage = getSelectedStage();
+        if (stage) stage.assignee = assignee;
+        render();
+      };
+
+      window.setRemarks = function (remarks) {
+        const stage = getSelectedStage();
+        if (stage) {
+          stage.remarks = remarks;
+          state.validation = '';
+        }
+      };
+
+      window.toggleChecklist = function (checkId, checked) {
+        const stage = getSelectedStage();
+        if (!stage) return;
+        stage.checklist = stage.checklist.map((item) =>
+          item.id === checkId ? { ...item, checked } : item
+        );
+        state.notice = '';
+        render();
+      };
+
+      window.performDecision = function (decision) {
+        const d = getDerived();
+        const stage = d.selectedStage;
+        if (!stage) return;
+
+        if (
+          ['Rejected', 'Sent Back'].includes(decision) &&
+          !stage.remarks.trim()
+        ) {
+          state.validation = `Remarks are required when a stage is ${decision.toLowerCase()}.`;
+          render();
+          return;
+        }
+        if (
+          decision === 'Completed' &&
+          stage.checklist.some((item) => !item.checked)
+        ) {
+          state.validation =
+            'Complete every mandatory checklist item before approving this stage.';
+          render();
+          return;
+        }
+
+        state.stages = state.stages.map((s, index) => {
+          if (index !== d.selectedIndex) {
+            if (
+              decision === 'Completed' &&
+              stage.id === 'resignation' &&
+              CLEARANCE_STAGE_IDS.includes(s.id) &&
+              s.status === 'Pending'
+            ) {
+              return { ...s, status: 'In Progress' };
+            }
+            if (
+              decision === 'Completed' &&
+              CLEARANCE_STAGE_IDS.includes(stage.id) &&
+              s.id === 'hr' &&
+              s.status === 'Pending' &&
+              areClearancesComplete(
+                state.stages.map((item, itemIndex) =>
+                  itemIndex === d.selectedIndex
+                    ? { ...item, status: 'Completed' }
+                    : item
+                )
+              )
+            ) {
+              return { ...s, status: 'In Progress' };
+            }
+            return s;
+          }
+
+          return {
+            ...s,
+            status: decision,
+            completedOn: decision === 'Completed' ? '01 Sep 2026' : '—',
+          };
+        });
+
+        state.validation = '';
+        if (decision === 'Completed') {
+          if (stage.id === 'resignation') {
+            state.notice =
+              'Resignation approved. Manager, Admin and Finance clearances can now run in parallel.';
+          } else if (stage.id === 'hr') {
+            state.notice =
+              'HR final clearance approved. All stages are complete — ready for F&F handoff.';
+          } else {
+            const remaining = state.stages.filter(
+              (s) =>
+                CLEARANCE_STAGE_IDS.includes(s.id) && s.status !== 'Completed'
+            );
+            state.notice =
+              remaining.length > 0
+                ? `${stage.label} approved. ${remaining.length} clearance stage(s) still pending.`
+                : `${stage.label} approved. HR final clearance is now available.`;
+          }
+        } else {
+          state.notice = `${stage.label} marked ${decision}. Review and update as needed.`;
+        }
+        render();
+      };
+
+      window.save = function () {
+        state.notice = 'Prototype changes saved for this resignation record.';
+        render();
+      };
+
+      window.resetScenario = function () {
+        state.stages = structuredClone(INITIAL_STAGES);
+        state.selectedStageId = 'admin';
+        state.initiateExit = true;
+        state.readyForFf = false;
+        state.validation = '';
+        state.notice =
+          'Unsaved changes cancelled. The mock scenario has been restored.';
+        render();
+      };
+
+      window.moveToFf = function () {
+        const d = getDerived();
+        if (!d.allStagesCompleted || state.role !== 'hr') return;
+        state.readyForFf = true;
+        state.notice =
+          'Employee moved to Ready for F&F. Final processing continues in greytHR.';
+        render();
+      };
+
+      render();
+    </script>
+  </body>
+</html>
