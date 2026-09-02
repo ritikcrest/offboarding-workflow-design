@@ -378,6 +378,197 @@
         background: transparent;
       }
 
+      .obwd-flow-stepper {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        margin-bottom: 16px;
+        border: 1px solid #e4e7ec;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .obwd-flow-step {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 52px;
+        padding: 10px 14px;
+        border: 0;
+        border-right: 1px solid #e4e7ec;
+        background: #fbfcfd;
+        color: #667085;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .obwd-flow-step:last-child {
+        border-right: 0;
+      }
+
+      .obwd-flow-step strong {
+        display: block;
+        font-size: 12px;
+        color: #344054;
+      }
+
+      .obwd-flow-step small {
+        display: block;
+        font-size: 11px;
+        color: #667085;
+      }
+
+      .obwd-flow-step.is-active {
+        background: #eff4ff;
+        box-shadow: inset 0 -2px 0 #3155a5;
+      }
+
+      .obwd-flow-step.is-complete {
+        background: #f6fef9;
+      }
+
+      .obwd-flow-step-index {
+        display: grid;
+        width: 24px;
+        height: 24px;
+        place-items: center;
+        border-radius: 999px;
+        background: #eaecf0;
+        font-size: 11px;
+        font-weight: 700;
+        color: #475467;
+        flex: 0 0 auto;
+      }
+
+      .obwd-flow-step.is-active .obwd-flow-step-index {
+        background: #3155a5;
+        color: #fff;
+      }
+
+      .obwd-flow-stepper.is-readonly .obwd-flow-step {
+        cursor: default;
+      }
+
+      .obwd-flow-stepper.is-readonly .obwd-flow-step:disabled {
+        opacity: 1;
+      }
+
+      .obwd-flow-stepper:not(.is-readonly) .obwd-flow-step {
+        cursor: pointer;
+      }
+
+      .obwd-flow-stepper:not(.is-readonly) .obwd-flow-step:hover {
+        background: #f2f4f7;
+      }
+
+      .obwd-role-gate {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .obwd-role-gate h2 {
+        margin: 0 0 8px;
+        font-size: 16px;
+        color: #1d2939;
+      }
+
+      .obwd-role-gate p {
+        margin: 0 0 12px;
+        font-size: 13px;
+        color: #667085;
+      }
+
+      .obwd-readonly-banner {
+        margin-bottom: 16px;
+        padding: 10px 14px;
+        border: 1px solid #d0d5dd;
+        border-radius: 6px;
+        background: #f9fafb;
+        font-size: 13px;
+        color: #475467;
+      }
+
+      .obwd-field-full {
+        grid-column: 1 / -1;
+      }
+
+      .obwd-request-intro {
+        margin: 0 0 16px;
+        font-size: 13px;
+        color: #475467;
+      }
+
+      .obwd-request-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+
+      .obwd-request-meta p {
+        margin: 0;
+        font-size: 12px;
+        color: #667085;
+      }
+
+      .obwd-activity-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .obwd-activity-list li {
+        position: relative;
+        padding: 0 0 14px 18px;
+        font-size: 12px;
+        color: #475467;
+      }
+
+      .obwd-activity-list li::before {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 5px;
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: #98a2b3;
+      }
+
+      .obwd-activity-list li:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 14px;
+        bottom: 0;
+        width: 1px;
+        background: #e4e7ec;
+      }
+
+      .obwd-activity-list strong {
+        display: block;
+        color: #1d2939;
+      }
+
+      .obwd-screen-footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+        padding-top: 14px;
+        border-top: 1px solid #eaecf0;
+      }
+
+      .obwd-required {
+        color: #d92d20;
+      }
+
       .obwd-stage-tabs {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
@@ -893,12 +1084,21 @@
         manager: 'Vasu Devalla',
         entity: 'Nemo IT Solutions',
         department: 'Engineering',
-        resignationDate: '01 May 2026',
-        proposedLwd: '31 May 2026',
-        approvedLwd: '31 May 2026',
-        reason: 'Better career opportunity',
+        resignationDate: '—',
+        proposedLwd: '—',
+        approvedLwd: '—',
+        reason: '—',
         noticePeriod: '30 days',
       };
+
+      const REASON_FOR_LEAVING_OPTIONS = [
+        'Better Job Opportunity',
+        'Higher Education',
+        'Health Issues',
+        'Personal or Family Reasons',
+        'Seeking Higher Compensation',
+        'Others',
+      ];
 
       const ROLE_OPTIONS = [
         { value: 'hr', label: 'Priya Sharma · HR Admin' },
@@ -946,9 +1146,21 @@
               defaultAssignee: 'Vasu Devalla',
               enabled: true,
               tasks: [
-                { id: 'kt', label: 'Knowledge transfer completed', enabled: true },
-                { id: 'tasks', label: 'Pending tasks reassigned', enabled: true },
-                { id: 'handover', label: 'Team handover completed', enabled: true },
+                {
+                  id: 'kt',
+                  label: 'Knowledge transfer completed',
+                  enabled: true,
+                },
+                {
+                  id: 'tasks',
+                  label: 'Pending tasks reassigned',
+                  enabled: true,
+                },
+                {
+                  id: 'handover',
+                  label: 'Team handover completed',
+                  enabled: true,
+                },
                 {
                   id: 'information',
                   label: 'Company information handed over',
@@ -969,7 +1181,11 @@
               enabled: true,
               tasks: [
                 { id: 'id-card', label: 'ID card returned', enabled: true },
-                { id: 'access-card', label: 'Access card returned', enabled: true },
+                {
+                  id: 'access-card',
+                  label: 'Access card returned',
+                  enabled: true,
+                },
                 { id: 'keys', label: 'Office keys returned', enabled: true },
                 {
                   id: 'admin-dues',
@@ -990,7 +1206,11 @@
               defaultAssignee: 'Neha Gupta',
               enabled: true,
               tasks: [
-                { id: 'advances', label: 'Salary advances verified', enabled: true },
+                {
+                  id: 'advances',
+                  label: 'Salary advances verified',
+                  enabled: true,
+                },
                 {
                   id: 'recoveries',
                   label: 'Loans or recoveries verified',
@@ -1006,7 +1226,11 @@
                   label: 'Pending deductions recorded',
                   enabled: true,
                 },
-                { id: 'finance-dues', label: 'Finance dues cleared', enabled: true },
+                {
+                  id: 'finance-dues',
+                  label: 'Finance dues cleared',
+                  enabled: true,
+                },
               ],
             },
             {
@@ -1118,17 +1342,299 @@
       };
 
       const state = {
-        role: 'hr',
+        role: 'employee',
+        prototypeStep: null,
+        requestId: '',
+        requestStatus: 'draft',
+        approvedLastDate: '',
+        hrRemarks: '',
+        resignationRequest: {
+          reason_for_leaving: '',
+          desired_last_date: '',
+          reason: '',
+          comments: '',
+          submittedOn: '',
+        },
         template: createDefaultTemplate(),
         templateModalOpen: false,
         expandedTemplateStageId: null,
-        runtime: structuredClone(DEFAULT_RUNTIME),
-        selectedStageId: 'admin',
-        initiateExit: true,
+        runtime: createFreshRuntime(createDefaultTemplate()),
+        selectedStageId: 'resignation',
+        initiateExit: false,
         readyForFf: false,
         notice: '',
         validation: '',
       };
+
+      function createFreshRuntime(template) {
+        const runtime = {};
+        template.stages
+          .filter((stage) => stage.enabled)
+          .forEach((stage) => {
+            runtime[stage.id] = {
+              status: 'Pending',
+              completedOn: '—',
+              remarks: '',
+              checklist: Object.fromEntries(
+                stage.tasks
+                  .filter((task) => task.enabled)
+                  .map((task) => [task.id, false])
+              ),
+            };
+          });
+        return runtime;
+      }
+
+      function formatDisplayDate(value) {
+        if (!value) return '—';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return value;
+        return date.toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+        });
+      }
+
+      function getReasonLabel() {
+        const request = state.resignationRequest;
+        if (request.reason_for_leaving === 'Others') {
+          return request.reason?.trim() || 'Others';
+        }
+        return request.reason_for_leaving || '—';
+      }
+
+      function syncEmployeeFromRequest() {
+        const request = state.resignationRequest;
+        EMPLOYEE.resignationDate =
+          request.submittedOn ||
+          formatDisplayDate(new Date().toISOString().slice(0, 10));
+        EMPLOYEE.proposedLwd = formatDisplayDate(request.desired_last_date);
+        EMPLOYEE.approvedLwd = formatDisplayDate(
+          state.approvedLastDate || request.desired_last_date
+        );
+        EMPLOYEE.reason = getReasonLabel();
+      }
+
+      function ensureApprovedLastDateDefault() {
+        if (!state.approvedLastDate && state.resignationRequest.desired_last_date) {
+          state.approvedLastDate = state.resignationRequest.desired_last_date;
+        }
+      }
+
+      function getFlowStepId() {
+        if (state.prototypeStep) return state.prototypeStep;
+        if (state.requestStatus === 'completed') return 'offboarding';
+        if (state.requestStatus === 'draft') return 'apply';
+        return 'hr-review';
+      }
+
+      function getFlowStepStatus(stepId) {
+        const activeStep = getFlowStepId();
+        const order = ['apply', 'hr-review', 'offboarding'];
+        const stepIndex = order.indexOf(stepId);
+        const activeIndex = order.indexOf(activeStep);
+
+        if (state.prototypeStep) {
+          if (stepId === activeStep) return 'active';
+          if (stepIndex < activeIndex) return 'complete';
+          return 'upcoming';
+        }
+
+        if (stepId === 'apply') {
+          if (state.requestStatus !== 'draft') return 'complete';
+          return 'active';
+        }
+        if (stepId === 'hr-review') {
+          if (state.requestStatus === 'completed') return 'complete';
+          if (state.requestStatus !== 'draft') return 'active';
+          return 'upcoming';
+        }
+        if (stepId === 'offboarding') {
+          return state.requestStatus === 'completed' ? 'active' : 'upcoming';
+        }
+        return 'upcoming';
+      }
+
+      function renderRoleGate(title, description, hint) {
+        return `${renderPrototypeBanner()}
+          ${renderPageHeader(
+            'Resignation & Offboarding',
+            'Employees / Offboarding'
+          )}
+          <main class="obwd-page-content obwd-container">
+            ${renderFlowStepper()}
+            <section class="obwd-card obwd-role-gate">
+              <div class="obwd-card-body">
+                <h2>${escapeHtml(title)}</h2>
+                <p>${escapeHtml(description)}</p>
+                <p class="obwd-muted">${escapeHtml(hint)}</p>
+              </div>
+            </section>
+          </main>`;
+      }
+
+      function renderHrEmptyScreen() {
+        return renderRoleGate(
+          'No resignation request to review',
+          'HR can accept resignation requests only after an employee submits one from External Requests.',
+          'Switch to Employee role to submit a resignation request for this prototype.'
+        );
+      }
+
+      function renderWaitingScreen() {
+        return renderRoleGate(
+          'Offboarding not started yet',
+          'Department clearance begins only after HR accepts the resignation request and sets offboarding to Initiated.',
+          'Switch to Employee to submit, or HR Admin to review the pending request.'
+        );
+      }
+
+      function resolveActiveView() {
+        if (state.prototypeStep === 'apply') return 'apply';
+        if (state.prototypeStep === 'hr-review') return 'hr-review';
+        if (state.prototypeStep === 'offboarding') return 'offboarding';
+
+        if (state.requestStatus === 'completed') {
+          return state.role === 'employee' ? 'apply' : 'offboarding';
+        }
+        if (state.role === 'employee') {
+          return 'apply';
+        }
+        if (state.role === 'hr') {
+          return state.requestStatus === 'draft' ? 'hr-empty' : 'hr-review';
+        }
+        return 'waiting';
+      }
+
+      function ensurePreviewRequestData() {
+        if (state.resignationRequest.reason_for_leaving) {
+          syncEmployeeFromRequest();
+          return;
+        }
+
+        state.resignationRequest = {
+          reason_for_leaving: 'Better Job Opportunity',
+          desired_last_date: '2026-05-31',
+          reason: '',
+          comments: 'Relocating to Bangalore',
+          submittedOn: formatDisplayDate(new Date().toISOString().slice(0, 10)),
+        };
+        state.requestId = state.requestId || 'REQ-2026-0142';
+        state.approvedLastDate =
+          state.approvedLastDate || state.resignationRequest.desired_last_date;
+        syncEmployeeFromRequest();
+      }
+
+      function ensurePreviewOffboardingData() {
+        ensurePreviewRequestData();
+        if (state.requestStatus !== 'completed') {
+          state.runtime = structuredClone(DEFAULT_RUNTIME);
+          state.selectedStageId = 'admin';
+          state.initiateExit = true;
+        }
+      }
+
+      function canEmployeeEditRequest() {
+        return (
+          state.role === 'employee' &&
+          ['draft', 'sent_back'].includes(state.requestStatus)
+        );
+      }
+
+      function renderFlowStepper() {
+        const activeScreen = getFlowStepId();
+        const steps = [
+          { id: 'apply', title: 'Submit resignation', hint: 'Employee only' },
+          { id: 'hr-review', title: 'HR acceptance', hint: 'HR only' },
+          {
+            id: 'offboarding',
+            title: 'Offboarding & clearance',
+            hint: 'Department workflow',
+          },
+        ];
+
+        return `<nav class="obwd-flow-stepper" aria-label="Resignation journey">
+          ${steps
+            .map((step, index) => {
+              const status = getFlowStepStatus(step.id);
+              const isActive = step.id === activeScreen;
+              const isComplete = status === 'complete';
+              return `<button type="button" class="obwd-flow-step ${
+                isActive ? 'is-active' : ''
+              } ${isComplete ? 'is-complete' : ''}" aria-current="${
+                isActive ? 'step' : 'false'
+              }" onclick="goToPrototypeStep('${step.id}')">
+                <span class="obwd-flow-step-index">${
+                  isComplete ? '✓' : index + 1
+                }</span>
+                <span>
+                  <strong>${escapeHtml(step.title)}</strong>
+                  <small>${escapeHtml(step.hint)}</small>
+                </span>
+              </button>`;
+            })
+            .join('')}
+        </nav>`;
+      }
+
+      function renderPrototypeBanner(extra = '') {
+        return `<div class="obwd-prototype-banner">
+          <div class="obwd-container">
+            <strong>Design prototype only.</strong>
+            Employee submits resignation, HR accepts it, then department offboarding begins.
+            Click any step above to preview that screen directly, or use <em>Viewing as</em> to walk through roles.
+            ${extra ? `<span> ${extra}</span>` : ''}
+          </div>
+        </div>`;
+      }
+
+      function renderPageHeader(title, subtitle) {
+        return `<header class="obwd-page-header">
+          <div class="obwd-container">
+            <div class="obwd-header-left">
+              <button type="button" class="obwd-back-button" aria-label="Back" onclick="history.back()">←</button>
+              <div>
+                <h1>${escapeHtml(title)}</h1>
+                <p>${escapeHtml(subtitle)}</p>
+              </div>
+            </div>
+            <div class="obwd-role-select">
+              <label for="role-select">Viewing as</label>
+              <select id="role-select" onchange="setRole(this.value)">
+                ${ROLE_OPTIONS.map(
+                  (option) =>
+                    `<option value="${option.value}" ${
+                      state.role === option.value ? 'selected' : ''
+                    }>${escapeHtml(option.label)}</option>`
+                ).join('')}
+              </select>
+            </div>
+          </div>
+        </header>`;
+      }
+
+      function renderRequestStatusBadge() {
+        const map = {
+          draft: 'Draft',
+          pending: 'Pending on Processor',
+          completed: 'Completed',
+          rejected: 'Rejected',
+          sent_back: 'Sent Back',
+        };
+        const colorMap = {
+          Draft: '#6b6b6b',
+          'Pending on Processor': '#fd7e14',
+          Completed: '#33ba41',
+          Rejected: '#e34646',
+          'Sent Back': '#e34646',
+        };
+        const label = map[state.requestStatus] || 'Draft';
+        const color = colorMap[label] || '#6b6b6b';
+        return `<span class="obwd-badge" style="background:${color}">${escapeHtml(
+          label
+        )}</span>`;
+      }
 
       function cloneTemplate(template) {
         return structuredClone(template);
@@ -1225,13 +1731,17 @@
         if (!task) return;
         task.enabled = enabled;
         rebuildEmployeeWorkflow(
-          `Task "${task.label}" ${enabled ? 'added' : 'removed'} from ${stage.label}.`
+          `Task "${task.label}" ${enabled ? 'added' : 'removed'} from ${
+            stage.label
+          }.`
         );
       }
 
       function badge(status) {
         const color = BADGE_COLORS[status] || '#6b6b6b';
-        return `<span class="obwd-badge" style="background:${color}">${escapeHtml(status)}</span>`;
+        return `<span class="obwd-badge" style="background:${color}">${escapeHtml(
+          status
+        )}</span>`;
       }
 
       function escapeHtml(value) {
@@ -1291,7 +1801,9 @@
           const labels = pending
             .map((id) => stages.find((item) => item.id === id)?.label)
             .filter(Boolean);
-          return `HR final clearance opens after ${labels.join(', ')} are complete.`;
+          return `HR final clearance opens after ${labels.join(
+            ', '
+          )} are complete.`;
         }
         return '';
       }
@@ -1308,7 +1820,8 @@
           (stage) => stage.status === 'In Progress'
         );
         const pendingStages = stages.filter(
-          (stage) => !['Completed', 'Rejected', 'Sent Back'].includes(stage.status)
+          (stage) =>
+            !['Completed', 'Rejected', 'Sent Back'].includes(stage.status)
         );
         const currentStage =
           inProgressStages.length > 1
@@ -1373,9 +1886,12 @@
       }
 
       function getTemplateSummary() {
-        const enabledStages = state.template.stages.filter((stage) => stage.enabled);
+        const enabledStages = state.template.stages.filter(
+          (stage) => stage.enabled
+        );
         const taskCount = enabledStages.reduce(
-          (sum, stage) => sum + stage.tasks.filter((task) => task.enabled).length,
+          (sum, stage) =>
+            sum + stage.tasks.filter((task) => task.enabled).length,
           0
         );
         return {
@@ -1385,7 +1901,9 @@
       }
 
       function renderField(label, value) {
-        return `<div class="obwd-field"><label>${escapeHtml(label)}</label><input readonly value="${escapeHtml(value)}" /></div>`;
+        return `<div class="obwd-field"><label>${escapeHtml(
+          label
+        )}</label><input readonly value="${escapeHtml(value)}" /></div>`;
       }
 
       function renderTemplateStageBlocks() {
@@ -1413,11 +1931,9 @@
             } ${isExpanded ? 'is-expanded' : ''}">
               <div class="obwd-template-stage-header">
                 <label>
-                  <input type="checkbox" ${
-                    stage.enabled ? 'checked' : ''
-                  } ${lockedStage ? 'disabled' : ''} onchange="toggleTemplateStage('${
-              stage.id
-            }', this.checked)" />
+                  <input type="checkbox" ${stage.enabled ? 'checked' : ''} ${
+              lockedStage ? 'disabled' : ''
+            } onchange="toggleTemplateStage('${stage.id}', this.checked)" />
                   <span>${escapeHtml(stage.label)}</span>
                 </label>
                 <span class="obwd-template-count">${
@@ -1431,7 +1947,11 @@
               stage.id
             }')">${isExpanded ? '▾' : '▸'}</button>
               </div>
-              ${isExpanded ? `<div class="obwd-template-tasks">${tasks}</div>` : ''}
+              ${
+                isExpanded
+                  ? `<div class="obwd-template-tasks">${tasks}</div>`
+                  : ''
+              }
             </div>`;
           })
           .join('');
@@ -1485,8 +2005,12 @@
             <div class="obwd-template-compact-bar">
               <div class="obwd-template-summary">
                 <strong>${escapeHtml(state.template.name)}</strong>
-                <span class="obwd-template-chip">${summary.stageCount} stages</span>
-                <span class="obwd-template-chip">${summary.taskCount} tasks</span>
+                <span class="obwd-template-chip">${
+                  summary.stageCount
+                } stages</span>
+                <span class="obwd-template-chip">${
+                  summary.taskCount
+                } tasks</span>
               </div>
               <button type="button" class="obwd-btn obwd-btn-secondary" onclick="openTemplateModal()">
                 Configure template
@@ -1496,46 +2020,310 @@
         </section>${renderTemplateModal()}`;
       }
 
-      function render() {
+      function renderApplyScreen() {
+        const request = state.resignationRequest;
+        const showOtherReason = request.reason_for_leaving === 'Others';
+        const editable = canEmployeeEditRequest();
+        const statusMessage =
+          state.requestStatus === 'pending'
+            ? 'Your resignation request has been submitted and is awaiting HR review.'
+            : state.requestStatus === 'rejected'
+            ? 'Your resignation request was rejected. Contact HR if you need more details.'
+            : state.requestStatus === 'sent_back'
+            ? 'HR sent your request back. Update the details below and resubmit.'
+            : state.requestStatus === 'completed'
+            ? 'Your resignation request was accepted by HR. Offboarding clearance is now in progress.'
+            : '';
+
+        return `${renderPrototypeBanner()}
+          ${renderPageHeader(
+            'Resignation Request',
+            'Requests / External Requests / Resignation'
+          )}
+          <main class="obwd-page-content obwd-container">
+            ${renderFlowStepper()}
+            ${
+              state.notice
+                ? `<div class="obwd-alert obwd-alert-success">${escapeHtml(
+                    state.notice
+                  )}</div>`
+                : ''
+            }
+            ${
+              state.validation
+                ? `<div class="obwd-alert obwd-alert-danger">${escapeHtml(
+                    state.validation
+                  )}</div>`
+                : ''
+            }
+
+            <section class="obwd-card obwd-summary-card">
+              <div class="obwd-card-body">
+                <p class="obwd-request-intro">
+                  If you intend to resign from the company, kindly provide the information below.
+                  Only the employee can submit this request.
+                </p>
+                ${
+                  statusMessage
+                    ? `<div class="obwd-readonly-banner">
+                        ${renderRequestStatusBadge()}
+                        <span style="margin-left:8px">${escapeHtml(
+                          statusMessage
+                        )}</span>
+                      </div>`
+                    : ''
+                }
+                <div class="obwd-form-grid">
+                  <div class="obwd-field">
+                    <label for="reason-for-leaving">
+                      Reason For Leaving <span class="obwd-required">*</span>
+                    </label>
+                    <select
+                      id="reason-for-leaving"
+                      ${editable ? '' : 'disabled'}
+                      onchange="setResignationField('reason_for_leaving', this.value)"
+                    >
+                      <option value="">Select reason</option>
+                      ${REASON_FOR_LEAVING_OPTIONS.map(
+                        (option) =>
+                          `<option value="${escapeHtml(option)}" ${
+                            request.reason_for_leaving === option
+                              ? 'selected'
+                              : ''
+                          }>${escapeHtml(option)}</option>`
+                      ).join('')}
+                    </select>
+                  </div>
+                  <div class="obwd-field">
+                    <label for="desired-last-date">
+                      Desired Last Working Date <span class="obwd-required">*</span>
+                    </label>
+                    <input
+                      id="desired-last-date"
+                      type="date"
+                      value="${escapeHtml(request.desired_last_date)}"
+                      ${editable ? '' : 'disabled'}
+                      onchange="setResignationField('desired_last_date', this.value)"
+                    />
+                  </div>
+                  ${
+                    showOtherReason
+                      ? `<div class="obwd-field obwd-field-full">
+                          <label for="other-reason">
+                            Please Mention The Reason <span class="obwd-required">*</span>
+                          </label>
+                          <textarea
+                            id="other-reason"
+                            rows="4"
+                            placeholder="Describe your reason"
+                            ${editable ? '' : 'readonly'}
+                            oninput="setResignationField('reason', this.value)"
+                          >${escapeHtml(request.reason)}</textarea>
+                        </div>`
+                      : ''
+                  }
+                  <div class="obwd-field obwd-field-full">
+                    <label for="comments">Comments</label>
+                    <textarea
+                      id="comments"
+                      rows="4"
+                      placeholder="Optional comments for HR"
+                      ${editable ? '' : 'readonly'}
+                      oninput="setResignationField('comments', this.value)"
+                    >${escapeHtml(request.comments)}</textarea>
+                  </div>
+                </div>
+                <div class="obwd-screen-footer">
+                  <button type="button" class="obwd-btn obwd-btn-secondary" onclick="resetScenario()">
+                    Reset prototype
+                  </button>
+                  ${
+                    editable
+                      ? `<button type="button" class="obwd-btn obwd-btn-primary" onclick="submitResignationRequest()">
+                          ${
+                            state.requestStatus === 'sent_back'
+                              ? 'Resubmit request'
+                              : 'Submit request'
+                          }
+                        </button>`
+                      : ''
+                  }
+                </div>
+              </div>
+            </section>
+          </main>`;
+      }
+
+      function renderHrReviewScreen() {
+        const request = state.resignationRequest;
+        ensureApprovedLastDateDefault();
+
+        return `${renderPrototypeBanner()}
+          ${renderPageHeader(
+            `Resignation Request · ${state.requestId || 'REQ-2026-0142'}`,
+            'Requests / External Requests / Resignation'
+          )}
+          <main class="obwd-page-content obwd-container">
+            ${renderFlowStepper()}
+            ${
+              state.notice
+                ? `<div class="obwd-alert obwd-alert-success">${escapeHtml(
+                    state.notice
+                  )}</div>`
+                : ''
+            }
+            ${
+              state.validation
+                ? `<div class="obwd-alert obwd-alert-danger">${escapeHtml(
+                    state.validation
+                  )}</div>`
+                : ''
+            }
+
+            <section class="obwd-card obwd-summary-card">
+              <div class="obwd-card-body">
+                <div class="obwd-readonly-banner">
+                  HR review only. Employees cannot approve or reject resignation requests here.
+                </div>
+                <div class="obwd-request-meta">
+                  <p>Request ID: <strong>${escapeHtml(
+                    state.requestId || 'REQ-2026-0142'
+                  )}</strong></p>
+                  ${renderRequestStatusBadge()}
+                </div>
+
+                <div class="obwd-form-grid">
+                  ${renderField(
+                    'Reason For Leaving',
+                    request.reason_for_leaving || '—'
+                  )}
+                  ${
+                    request.reason_for_leaving === 'Others'
+                      ? renderField('Other Reason', request.reason || '—')
+                      : ''
+                  }
+                  ${renderField(
+                    'Desired Last Working Date',
+                    formatDisplayDate(request.desired_last_date)
+                  )}
+                  ${renderField('Comments', request.comments || '—')}
+                  ${renderField('Submitted on', request.submittedOn || '—')}
+                  ${renderField(
+                    'Employee',
+                    `${EMPLOYEE.name} (${EMPLOYEE.id})`
+                  )}
+                  ${renderField('Reporting manager', EMPLOYEE.manager)}
+                </div>
+
+                <div class="obwd-form-grid" style="margin-top:16px">
+                  <div class="obwd-field">
+                    <label for="approved-last-date">
+                      Approved Last Working Date <span class="obwd-required">*</span>
+                    </label>
+                    <input
+                      id="approved-last-date"
+                      type="date"
+                      value="${escapeHtml(state.approvedLastDate)}"
+                      onchange="setApprovedLastDate(this.value)"
+                      ${state.requestStatus === 'completed' ? 'disabled' : ''}
+                    />
+                    <p class="obwd-muted" style="margin-top:6px">
+                      HR confirms or updates the relieving date before approval.
+                    </p>
+                  </div>
+                  <div class="obwd-field">
+                    <label for="hr-remarks">HR remarks</label>
+                    <textarea
+                      id="hr-remarks"
+                      rows="4"
+                      placeholder="Add remarks for approval, rejection, or send back"
+                      oninput="setHrRemarks(this.value)"
+                      ${state.requestStatus === 'completed' ? 'readonly' : ''}
+                    >${escapeHtml(state.hrRemarks)}</textarea>
+                  </div>
+                </div>
+
+                <div class="obwd-card" style="margin-top:16px;margin-bottom:0">
+                  <div class="obwd-card-header">
+                    <h2>Activity</h2>
+                    <p>Request timeline</p>
+                  </div>
+                  <div class="obwd-card-body">
+                    <ul class="obwd-activity-list">
+                      <li>
+                        <strong>${escapeHtml(
+                          EMPLOYEE.name
+                        )} submitted resignation</strong>
+                        ${escapeHtml(request.submittedOn || '—')}
+                      </li>
+                      ${
+                        state.requestStatus === 'pending'
+                          ? '<li><strong>Pending on Priya Sharma (HR)</strong>Awaiting HR review</li>'
+                          : ''
+                      }
+                      ${
+                        state.requestStatus === 'completed'
+                          ? `<li><strong>Request completed by Priya Sharma</strong>Approved LWD: ${escapeHtml(
+                              formatDisplayDate(state.approvedLastDate)
+                            )}</li>`
+                          : ''
+                      }
+                      ${
+                        state.requestStatus === 'rejected'
+                          ? '<li><strong>Request rejected by Priya Sharma</strong>Employee notified</li>'
+                          : ''
+                      }
+                      ${
+                        state.requestStatus === 'sent_back'
+                          ? '<li><strong>Request sent back to employee</strong>Changes requested</li>'
+                          : ''
+                      }
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="obwd-screen-footer">
+                  ${
+                    state.requestStatus === 'pending'
+                      ? `<button type="button" class="obwd-btn obwd-btn-danger" onclick="rejectResignationRequest()">
+                          Reject
+                        </button>
+                        <button type="button" class="obwd-btn obwd-btn-secondary" onclick="sendBackResignationRequest()">
+                          Send Back
+                        </button>
+                        <button type="button" class="obwd-btn obwd-btn-primary" onclick="approveResignationRequest()">
+                          Approve &amp; close request
+                        </button>`
+                      : state.requestStatus === 'sent_back'
+                      ? `<p class="obwd-muted mb-0">Request sent back. Switch to Employee role so they can update and resubmit.</p>`
+                      : state.requestStatus === 'completed'
+                      ? `<p class="obwd-muted mb-0">Request closed. Switch to Manager, Admin, Finance, or HR to continue offboarding clearance.</p>`
+                      : ''
+                  }
+                </div>
+              </div>
+            </section>
+          </main>`;
+      }
+
+      function renderOffboardingScreen() {
         const d = getDerived();
         const stage = d.selectedStage;
         if (!stage) return;
 
-        const checkedCount = stage.checklist.filter((item) => item.checked).length;
+        const checkedCount = stage.checklist.filter(
+          (item) => item.checked
+        ).length;
 
         document.getElementById('app').innerHTML = `
-          <div class="obwd-prototype-banner">
-            <div class="obwd-container">
-              <strong>Design prototype only.</strong>
-              Interactive artifact for resignation approval, department clearance, and Payroll F&amp;F handoff.
-              Switch to <em>HR Admin</em> to preview template configuration. Not connected to HRMS APIs.
-            </div>
-          </div>
-
-          <header class="obwd-page-header">
-            <div class="obwd-container">
-              <div class="obwd-header-left">
-                <button type="button" class="obwd-back-button" aria-label="Back" onclick="history.back()">←</button>
-                <div>
-                  <h1>Resignation &amp; Relieving – ${escapeHtml(EMPLOYEE.name)}</h1>
-                  <p>Employees / Offboarding / ${escapeHtml(EMPLOYEE.id)}</p>
-                </div>
-              </div>
-              <div class="obwd-role-select">
-                <label for="role-select">Viewing as</label>
-                <select id="role-select" onchange="setRole(this.value)">
-                  ${ROLE_OPTIONS.map(
-                    (option) =>
-                      `<option value="${option.value}" ${
-                        state.role === option.value ? 'selected' : ''
-                      }>${escapeHtml(option.label)}</option>`
-                  ).join('')}
-                </select>
-              </div>
-            </div>
-          </header>
+          ${renderPrototypeBanner()}
+          ${renderPageHeader(
+            `Resignation & Relieving – ${EMPLOYEE.name}`,
+            `Employees / Offboarding / ${EMPLOYEE.id}`
+          )}
 
           <main class="obwd-page-content obwd-container">
+            ${renderFlowStepper()}
             ${renderTemplatePanel()}
 
             <section class="obwd-card obwd-summary-card">
@@ -1545,11 +2333,19 @@
                     <p class="obwd-eyebrow">Clearance progress</p>
                     <div class="obwd-summary-title">
                       <h2>${escapeHtml(d.currentStage.label)}</h2>
-                      ${badge(state.readyForFf ? 'Ready for F&F' : d.currentStage.status)}
+                      ${badge(
+                        state.readyForFf
+                          ? 'Ready for F&F'
+                          : d.currentStage.status
+                      )}
                     </div>
                     <p class="obwd-muted" style="margin-top:4px">
-                      Template: ${escapeHtml(state.template.name)} · Parallel clearances ·
-                      ${d.completedCount} of ${d.stages.length} stages completed${
+                      Template: ${escapeHtml(
+                        state.template.name
+                      )} · Parallel clearances ·
+                      ${d.completedCount} of ${
+          d.stages.length
+        } stages completed${
           d.pendingClearances.length
             ? ` · Pending: ${escapeHtml(d.pendingClearances.join(', '))}`
             : ''
@@ -1558,7 +2354,9 @@
                   </div>
                   <div class="obwd-progress-wrap">
                     <span>${d.progress}% complete</span>
-                    <div class="obwd-progress-bar"><span style="width:${d.progress}%"></span></div>
+                    <div class="obwd-progress-bar"><span style="width:${
+                      d.progress
+                    }%"></span></div>
                   </div>
                 </div>
               </div>
@@ -1566,7 +2364,9 @@
 
             ${
               state.notice
-                ? `<div class="obwd-alert obwd-alert-success">${escapeHtml(state.notice)}</div>`
+                ? `<div class="obwd-alert obwd-alert-success">${escapeHtml(
+                    state.notice
+                  )}</div>`
                 : ''
             }
 
@@ -1589,8 +2389,14 @@
                   ${renderField('Legal entity', EMPLOYEE.entity)}
                   ${renderField('Department', EMPLOYEE.department)}
                   ${renderField('Resignation date', EMPLOYEE.resignationDate)}
-                  ${renderField('Proposed last working date', EMPLOYEE.proposedLwd)}
-                  ${renderField('Approved relieving date', EMPLOYEE.approvedLwd)}
+                  ${renderField(
+                    'Proposed last working date',
+                    EMPLOYEE.proposedLwd
+                  )}
+                  ${renderField(
+                    'Approved relieving date',
+                    EMPLOYEE.approvedLwd
+                  )}
                   ${renderField('Notice period', EMPLOYEE.noticePeriod)}
                   ${renderField('Resignation reason', EMPLOYEE.reason)}
                 </div>
@@ -1598,7 +2404,9 @@
                   <label class="obwd-check-row">
                     <input type="checkbox" ${
                       state.initiateExit ? 'checked' : ''
-                    } ${state.role !== 'hr' ? 'disabled' : ''} onchange="setInitiateExit(this.checked)" />
+                    } ${
+          state.role !== 'hr' ? 'disabled' : ''
+        } onchange="setInitiateExit(this.checked)" />
                     Initiate Exit Process
                   </label>
                   <div class="obwd-actions">
@@ -1617,21 +2425,31 @@
             <section class="obwd-card">
               <div class="obwd-card-header">
                 <h2>Approval &amp; Clearance Flow</h2>
-                <p>Employee submits → Manager approves resignation → Department clearances run in parallel → HR final clearance → Ready for F&amp;F</p>
+                <p>Employee submits request → HR accepts and initiates offboarding → Manager approves resignation → Department clearances run in parallel → HR final clearance → Ready for F&amp;F</p>
               </div>
               <div class="obwd-stage-tabs" role="tablist" aria-label="Workflow stages">
                 ${d.stages
                   .map((item) => {
-                    const statusClass = item.status.toLowerCase().replace(/ /g, '-');
+                    const statusClass = item.status
+                      .toLowerCase()
+                      .replace(/ /g, '-');
                     const locked = isStageLocked(item, d.stages);
                     const iconStatus = locked ? 'Locked' : item.status;
                     const disabled = locked && state.role !== 'hr';
                     return `<button type="button" role="tab" class="obwd-stage-tab is-${statusClass} ${
                       state.selectedStageId === item.id ? 'is-active' : ''
-                    }" ${disabled ? 'disabled' : ''} onclick="selectStage('${item.id}')">
-                      <span class="obwd-stage-icon">${stageIcon(iconStatus)}</span>
-                      <span><strong>${escapeHtml(item.label)}</strong><small>${escapeHtml(
-                      locked && item.status !== 'Completed' ? 'Locked' : item.status
+                    }" ${disabled ? 'disabled' : ''} onclick="selectStage('${
+                      item.id
+                    }')">
+                      <span class="obwd-stage-icon">${stageIcon(
+                        iconStatus
+                      )}</span>
+                      <span><strong>${escapeHtml(
+                        item.label
+                      )}</strong><small>${escapeHtml(
+                      locked && item.status !== 'Completed'
+                        ? 'Locked'
+                        : item.status
                     )}</small></span>
                     </button>`;
                   })
@@ -1648,7 +2466,9 @@
                   </div>
                   ${
                     d.stageLockMessage
-                      ? `<span class="obwd-lock-copy">🔒 ${escapeHtml(d.stageLockMessage)}</span>`
+                      ? `<span class="obwd-lock-copy">🔒 ${escapeHtml(
+                          d.stageLockMessage
+                        )}</span>`
                       : ''
                   }
                 </div>
@@ -1661,20 +2481,51 @@
                         ${
                           d.canAssign
                             ? `<select onchange="setAssignee(this.value)">
-                                <option ${stage.assignee === 'Vasu Devalla' ? 'selected' : ''}>Vasu Devalla</option>
-                                <option ${stage.assignee === 'Akash Verma' ? 'selected' : ''}>Akash Verma</option>
-                                <option ${stage.assignee === 'Neha Gupta' ? 'selected' : ''}>Neha Gupta</option>
-                                <option ${stage.assignee === 'Admin Department' ? 'selected' : ''}>Admin Department</option>
-                                <option ${stage.assignee === 'Finance Department' ? 'selected' : ''}>Finance Department</option>
+                                <option ${
+                                  stage.assignee === 'Vasu Devalla'
+                                    ? 'selected'
+                                    : ''
+                                }>Vasu Devalla</option>
+                                <option ${
+                                  stage.assignee === 'Akash Verma'
+                                    ? 'selected'
+                                    : ''
+                                }>Akash Verma</option>
+                                <option ${
+                                  stage.assignee === 'Neha Gupta'
+                                    ? 'selected'
+                                    : ''
+                                }>Neha Gupta</option>
+                                <option ${
+                                  stage.assignee === 'Admin Department'
+                                    ? 'selected'
+                                    : ''
+                                }>Admin Department</option>
+                                <option ${
+                                  stage.assignee === 'Finance Department'
+                                    ? 'selected'
+                                    : ''
+                                }>Finance Department</option>
                               </select>`
-                            : `<input readonly value="${escapeHtml(stage.assignee)}" />`
+                            : `<input readonly value="${escapeHtml(
+                                stage.assignee
+                              )}" />`
                         }
                       </div>
                       ${
                         stage.id === 'resignation'
-                          ? `${renderField('Reporting manager', EMPLOYEE.manager)}
-                             ${renderField('Proposed last working date', EMPLOYEE.proposedLwd)}
-                             ${renderField('Resignation reason', EMPLOYEE.reason)}`
+                          ? `${renderField(
+                              'Reporting manager',
+                              EMPLOYEE.manager
+                            )}
+                             ${renderField(
+                               'Proposed last working date',
+                               EMPLOYEE.proposedLwd
+                             )}
+                             ${renderField(
+                               'Resignation reason',
+                               EMPLOYEE.reason
+                             )}`
                           : ''
                       }
                     </div>
@@ -1682,13 +2533,31 @@
                     ${
                       stage.id === 'hr'
                         ? `<div class="obwd-final-summary obwd-form-grid">
-                            ${renderField('All required approvals', `${d.completedCount} of ${d.stages.length} completed`)}
+                            ${renderField(
+                              'All required approvals',
+                              `${d.completedCount} of ${d.stages.length} completed`
+                            )}
                             ${renderField('Leave balance', '12 days')}
-                            ${renderField('Approved leave encashment', '8 days')}
-                            ${renderField('Asset clearance summary', '2 returned · 1 pending')}
-                            ${renderField('Approved last working date', EMPLOYEE.approvedLwd)}
-                            ${renderField('Separation reason', 'Voluntary resignation')}
-                            ${renderField('Ready for F&F status', state.readyForFf ? 'Ready for F&F' : 'Not ready')}
+                            ${renderField(
+                              'Approved leave encashment',
+                              '8 days'
+                            )}
+                            ${renderField(
+                              'Asset clearance summary',
+                              '2 returned · 1 pending'
+                            )}
+                            ${renderField(
+                              'Approved last working date',
+                              EMPLOYEE.approvedLwd
+                            )}
+                            ${renderField(
+                              'Separation reason',
+                              'Voluntary resignation'
+                            )}
+                            ${renderField(
+                              'Ready for F&F status',
+                              state.readyForFf ? 'Ready for F&F' : 'Not ready'
+                            )}
                           </div>`
                         : ''
                     }
@@ -1701,7 +2570,9 @@
           d.canUpdate
             ? 'Add remarks. Required for Reject and Send Back.'
             : 'No remarks added.'
-        }" oninput="setRemarks(this.value)">${escapeHtml(stage.remarks)}</textarea>
+        }" oninput="setRemarks(this.value)">${escapeHtml(
+          stage.remarks
+        )}</textarea>
                     </div>
                   </div>
 
@@ -1711,7 +2582,9 @@
                         <h4>Mandatory checklist</h4>
                         <p>All items must be complete before approval.</p>
                       </div>
-                      <span class="obwd-checklist-count">${checkedCount}/${stage.checklist.length}</span>
+                      <span class="obwd-checklist-count">${checkedCount}/${
+          stage.checklist.length
+        }</span>
                     </div>
                     <div>
                       ${
@@ -1719,9 +2592,13 @@
                           ? stage.checklist
                               .map(
                                 (item) => `<label class="obwd-checklist-item">
-                                  <input type="checkbox" ${item.checked ? 'checked' : ''} ${
+                                  <input type="checkbox" ${
+                                    item.checked ? 'checked' : ''
+                                  } ${
                                   d.canUpdate ? '' : 'disabled'
-                                } onchange="toggleChecklist('${item.id}', this.checked)" />
+                                } onchange="toggleChecklist('${
+                                  item.id
+                                }', this.checked)" />
                                   <span>${escapeHtml(item.label)}</span>
                                 </label>`
                               )
@@ -1749,10 +2626,14 @@
                          <button type="button" class="obwd-btn obwd-btn-primary" onclick="performDecision('Completed')">✓ Approve</button>`
                       : `<p class="obwd-muted">${
                           stage.status === 'Completed'
-                            ? `Completed by ${escapeHtml(stage.assignee)} on ${escapeHtml(stage.completedOn)}.`
+                            ? `Completed by ${escapeHtml(
+                                stage.assignee
+                              )} on ${escapeHtml(stage.completedOn)}.`
                             : d.stageLockMessage
                             ? escapeHtml(d.stageLockMessage)
-                            : `Switch to the ${escapeHtml(stage.ownerRole)} role to update this stage.`
+                            : `Switch to the ${escapeHtml(
+                                stage.ownerRole
+                              )} role to update this stage.`
                         }</p>`
                   }
                 </div>
@@ -1767,13 +2648,17 @@
                 <button type="button" class="obwd-btn obwd-btn-secondary" onclick="resetScenario()">Cancel</button>
                 <button type="button" class="obwd-btn obwd-btn-secondary" onclick="save()">Save</button>
                 <button type="button" class="obwd-btn obwd-btn-primary" ${
-                  !d.allStagesCompleted || state.role !== 'hr' || state.readyForFf
+                  !d.allStagesCompleted ||
+                  state.role !== 'hr' ||
+                  state.readyForFf
                     ? 'disabled'
                     : ''
                 } title="${
           state.role !== 'hr' ? 'Only HR can complete the F&F handoff' : ''
         }" onclick="moveToFf()">
-                  ${state.readyForFf ? 'Ready for F&F' : 'Move to Ready for F&F'}
+                  ${
+                    state.readyForFf ? 'Ready for F&F' : 'Move to Ready for F&F'
+                  }
                 </button>
               </div>
             </div>
@@ -1781,8 +2666,176 @@
         `;
       }
 
+      function render() {
+        const view = resolveActiveView();
+        const views = {
+          apply: renderApplyScreen,
+          'hr-review': renderHrReviewScreen,
+          'hr-empty': renderHrEmptyScreen,
+          waiting: renderWaitingScreen,
+        };
+
+        if (views[view]) {
+          document.getElementById('app').innerHTML = views[view]();
+          return;
+        }
+
+        renderOffboardingScreen();
+      }
+
+      window.goToPrototypeStep = function (step) {
+        state.prototypeStep = step;
+        state.validation = '';
+        state.notice = '';
+
+        if (step === 'hr-review') {
+          ensurePreviewRequestData();
+          ensureApprovedLastDateDefault();
+          if (state.requestStatus === 'draft') {
+            state.requestStatus = 'pending';
+          }
+        }
+
+        if (step === 'offboarding') {
+          ensurePreviewOffboardingData();
+        }
+
+        render();
+      };
+
+      window.setResignationField = function (field, value) {
+        state.resignationRequest[field] = value;
+        if (field === 'reason_for_leaving' && value !== 'Others') {
+          state.resignationRequest.reason = '';
+        }
+        state.validation = '';
+        if (field === 'reason_for_leaving') {
+          render();
+        }
+      };
+
+      window.setApprovedLastDate = function (value) {
+        state.approvedLastDate = value;
+        syncEmployeeFromRequest();
+        state.validation = '';
+      };
+
+      window.setHrRemarks = function (value) {
+        state.hrRemarks = value;
+        state.validation = '';
+      };
+
+      window.submitResignationRequest = function () {
+        if (state.role !== 'employee') {
+          state.validation =
+            'Only the employee can submit a resignation request.';
+          render();
+          return;
+        }
+        if (!canEmployeeEditRequest()) {
+          state.validation = 'This request can no longer be edited.';
+          render();
+          return;
+        }
+
+        const request = state.resignationRequest;
+        if (!request.reason_for_leaving) {
+          state.validation = 'Please select the Reason For Leaving.';
+          render();
+          return;
+        }
+        if (!request.desired_last_date) {
+          state.validation = 'Please select the Desired Last Working Date.';
+          render();
+          return;
+        }
+        if (request.reason_for_leaving === 'Others' && !request.reason.trim()) {
+          state.validation =
+            'Please mention the reason when Others is selected.';
+          render();
+          return;
+        }
+
+        state.requestId = 'REQ-2026-0142';
+        state.requestStatus = 'pending';
+        state.resignationRequest.submittedOn = formatDisplayDate(
+          new Date().toISOString().slice(0, 10)
+        );
+        syncEmployeeFromRequest();
+        state.prototypeStep = null;
+        state.validation = '';
+        state.notice =
+          'Resignation request submitted. Switch to HR Admin to review and accept it.';
+        render();
+      };
+
+      window.approveResignationRequest = function () {
+        if (state.role !== 'hr') {
+          state.validation = 'Only HR can approve this resignation request.';
+          render();
+          return;
+        }
+        if (!state.approvedLastDate) {
+          state.validation =
+            'Please confirm the Approved Last Working Date before approval.';
+          render();
+          return;
+        }
+
+        state.requestStatus = 'completed';
+        syncEmployeeFromRequest();
+        state.template = createDefaultTemplate();
+        state.runtime = createFreshRuntime(state.template);
+        state.selectedStageId = 'resignation';
+        state.initiateExit = true;
+        state.readyForFf = false;
+        state.prototypeStep = 'offboarding';
+        state.validation = '';
+        state.notice =
+          'Resignation request approved. Switch to Manager, Admin, Finance, or HR to continue offboarding clearance.';
+        render();
+      };
+
+      window.rejectResignationRequest = function () {
+        if (state.role !== 'hr') {
+          state.validation = 'Only HR can reject this resignation request.';
+          render();
+          return;
+        }
+        if (!state.hrRemarks.trim()) {
+          state.validation = 'Remarks are required when rejecting a request.';
+          render();
+          return;
+        }
+        state.requestStatus = 'rejected';
+        state.validation = '';
+        state.notice =
+          'Resignation request rejected. Employee will be notified.';
+        render();
+      };
+
+      window.sendBackResignationRequest = function () {
+        if (state.role !== 'hr') {
+          state.validation = 'Only HR can send this resignation request back.';
+          render();
+          return;
+        }
+        if (!state.hrRemarks.trim()) {
+          state.validation =
+            'Remarks are required when sending a request back.';
+          render();
+          return;
+        }
+        state.requestStatus = 'sent_back';
+        state.validation = '';
+        state.notice =
+          'Request sent back to employee. Switch to Employee role to update and resubmit.';
+        render();
+      };
+
       window.setRole = function (role) {
         state.role = role;
+        state.prototypeStep = null;
         render();
       };
 
@@ -1813,7 +2866,8 @@
       window.selectStage = function (id) {
         const stages = getStages();
         const stage = stages.find((item) => item.id === id);
-        if (stage && isStageLocked(stage, stages) && state.role !== 'hr') return;
+        if (stage && isStageLocked(stage, stages) && state.role !== 'hr')
+          return;
         state.selectedStageId = id;
         state.validation = '';
         render();
@@ -1846,7 +2900,8 @@
         const stage = getSelectedStage(getStages());
         if (!stage) return;
         state.runtime[stage.id] = state.runtime[stage.id] || { checklist: {} };
-        state.runtime[stage.id].checklist = state.runtime[stage.id].checklist || {};
+        state.runtime[stage.id].checklist =
+          state.runtime[stage.id].checklist || {};
         state.runtime[stage.id].checklist[checkId] = checked;
         state.notice = '';
         render();
@@ -1857,7 +2912,10 @@
         const stage = d.selectedStage;
         if (!stage) return;
 
-        if (['Rejected', 'Sent Back'].includes(decision) && !stage.remarks.trim()) {
+        if (
+          ['Rejected', 'Sent Back'].includes(decision) &&
+          !stage.remarks.trim()
+        ) {
           state.validation = `Remarks are required when a stage is ${decision.toLowerCase()}.`;
           render();
           return;
@@ -1903,10 +2961,12 @@
             state.notice =
               'HR final clearance approved. All stages are complete — ready for F&F handoff.';
           } else {
-            const remaining = getActiveClearanceIds(getStages()).filter((id) => {
-              const item = state.runtime[id];
-              return item?.status !== 'Completed';
-            });
+            const remaining = getActiveClearanceIds(getStages()).filter(
+              (id) => {
+                const item = state.runtime[id];
+                return item?.status !== 'Completed';
+              }
+            );
             state.notice =
               remaining.length > 0
                 ? `${stage.label} approved. ${remaining.length} clearance stage(s) still pending.`
@@ -1924,16 +2984,33 @@
       };
 
       window.resetScenario = function () {
+        state.role = 'employee';
+        state.prototypeStep = null;
+        state.requestId = '';
+        state.requestStatus = 'draft';
+        state.approvedLastDate = '';
+        state.hrRemarks = '';
+        state.resignationRequest = {
+          reason_for_leaving: '',
+          desired_last_date: '',
+          reason: '',
+          comments: '',
+          submittedOn: '',
+        };
         state.template = createDefaultTemplate();
         state.templateModalOpen = false;
         state.expandedTemplateStageId = null;
-        state.runtime = structuredClone(DEFAULT_RUNTIME);
-        state.selectedStageId = 'admin';
-        state.initiateExit = true;
+        state.runtime = createFreshRuntime(state.template);
+        state.selectedStageId = 'resignation';
+        state.initiateExit = false;
         state.readyForFf = false;
         state.validation = '';
         state.notice =
-          'Unsaved changes cancelled. Template and employee workflow restored.';
+          'Prototype reset. Start with the employee resignation request.';
+        EMPLOYEE.resignationDate = '—';
+        EMPLOYEE.proposedLwd = '—';
+        EMPLOYEE.approvedLwd = '—';
+        EMPLOYEE.reason = '—';
         render();
       };
 
